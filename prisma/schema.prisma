@@ -23,9 +23,8 @@ model User {
 model Book {
   id         Int       @id @default(autoincrement())
   title      String
-  done       Boolean
-  startDate  DateTime
-  finishDate DateTime
+  startDate  DateTime  @default(now())
+  finishDate DateTime?
   userId     Int
   User       User      @relation(fields: [userId], references: [id])
   categoryId Int?
