@@ -113,10 +113,30 @@ export class BookService {
     }
   }
 
-  async updateBook(id: number, input: PatchBookInput) {
-    return await this.prisma.book.update({
-      where: { id: id },
-      data: { ...input },
-    });
+  async updateBook(id: number, input: PatchBookInput, userId: number) {
+    try {
+      if (input.categoryId) {
+        const category = await this.prisma.category.findFirst({
+          where: {
+            id: input.categoryId,
+          },
+        });
+        if (!category) {
+          throw new NotFoundException('Couldnt find category with that id');
+        }
+        if (category.userId !== userId) {
+          throw new UnauthorizedException(`You're not the owner of the folder`);
+        }
+      }
+      return await this.prisma.book.update({
+        where: { id: id },
+        data: { ...input },
+      });
+    } catch (error) {
+      if (error.code === 'P2003') {
+        throw new NotFoundException('not available');
+      }
+      throw error;
+    }
   }
 }

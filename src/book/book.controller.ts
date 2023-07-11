@@ -7,14 +7,14 @@ import {
   ParseIntPipe,
   Post,
   Query,
-  Request,
+  Patch,
   UseGuards,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CurrentUser } from '../decorators/user.decorator';
 import { ApiQuery } from '@nestjs/swagger';
 import { User } from '@prisma/client';
-import { BookInput } from './dto/book.dto';
+import { BookInput, PatchBookInput } from './dto/book.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 
 @UseGuards(JwtAuthGuard)
@@ -37,15 +37,24 @@ export class BookController {
     @Param('id', ParseIntPipe) id: number,
     @CurrentUser() currentUser: User,
   ) {
-    return this.bookService.deleteBook(id, currentUser.id);
+    await this.bookService.deleteBook(id, currentUser.id);
+    return `Book with id ${id} has been deleted`;
   }
 
   @Post('finish/:id')
   async finishBook(
     @Param('id', ParseIntPipe) id,
     @CurrentUser() currentUser: User,
-    @Request() req,
   ) {
     return await this.bookService.finishBook(id, currentUser.id);
+  }
+
+  @Patch('update/:id')
+  async updateBook(
+    @Param('id', ParseIntPipe) id,
+    @CurrentUser() currentUser: User,
+    @Body() input: PatchBookInput,
+  ) {
+    return this.bookService.updateBook(id, input, currentUser.id);
   }
 }
