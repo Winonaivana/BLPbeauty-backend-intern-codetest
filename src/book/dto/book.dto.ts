@@ -20,3 +20,12 @@ export class BookInput {
   @IsNumber()
   categoryId: number;
 }
+
+export class PatchBookInput {
+  @IsString()
+  title: string;
+
+  @IsOptional()
+  @IsNumber()
+  categoryId: number;
+}

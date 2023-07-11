@@ -38,4 +38,12 @@ export class BookController {
   ) {
     return this.bookService.deleteBook(id, currentUser.id);
   }
+
+  @Post('finish/:id')
+  async finishBook(
+    @Param('id', ParseIntPipe) id,
+    @CurrentUser() currentUser: User,
+  ) {
+    return await this.bookService.finishBook(id, currentUser.id);
+  }
 }

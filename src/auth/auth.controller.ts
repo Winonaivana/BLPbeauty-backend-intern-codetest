@@ -13,12 +13,11 @@ export class AuthController {
   @Post('/signup')
   async register(@Body() input: AuthDto) {
     await this.authService.registerUser(input);
-    return `${input.email} successfully registered`;
+    return 'Successfully registered';
   }
 
   @Post('/signin')
   async login(@Body() input: AuthDto) {
-    await this.authService.loginUser(input);
-    return 'successfully logged in';
+    return await this.authService.loginUser(input);
   }
 }
