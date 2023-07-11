@@ -1,4 +1,9 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthDto } from './dto/auth.dto';
@@ -37,5 +42,28 @@ export class AuthService {
       }
       throw err;
     }
+  }
+
+  async loginUser(input: AuthDto) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        email: input.email,
+      },
+    });
+    if (!user) {
+      throw new NotFoundException('Incorrect credential');
+    }
+
+    const isPasswordMatch: boolean = bcrypt.compareSync(
+      input.password,
+      user.hashPassword,
+    );
+
+    if (!isPasswordMatch) {
+      throw new UnauthorizedException('Incorrect credentials');
+    }
+    return {
+      accessToken: this.jwtService.sign({ sub: user.id }),
+    };
   }
 }
