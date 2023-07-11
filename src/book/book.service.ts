@@ -27,6 +27,23 @@ export class BookService {
     });
   }
 
+  async findById(id: number, userId: number) {
+    try {
+      const oneBook = await this.prisma.book.findUnique({
+        where: {
+          id: id,
+        },
+      });
+
+      if (oneBook.userId !== userId) {
+        throw new UnauthorizedException(`You're not the owner of the book `);
+      }
+      return oneBook;
+    } catch {
+      throw new NotFoundException('book not found');
+    }
+  }
+
   async addBook(input: BookInput, userId: number) {
     try {
       if (input.categoryId) {
@@ -39,7 +56,9 @@ export class BookService {
           throw new NotFoundException('Couldnt find category with that id');
         }
         if (category.userId !== userId) {
-          throw new UnauthorizedException(`You're not the owner of the folder`);
+          throw new UnauthorizedException(
+            `You're not the owner of the category`,
+          );
         }
       }
       return this.prisma.book.create({

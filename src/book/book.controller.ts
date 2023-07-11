@@ -26,6 +26,13 @@ export class BookController {
   async findAll(@CurrentUser() currentUser: User, @Query('q') query?: string) {
     return await this.bookService.findAll(query, currentUser.id);
   }
+  @Get(':id')
+  async findById(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() currentUser: User,
+  ) {
+    return await this.bookService.findById(id, currentUser.id);
+  }
 
   @Post()
   async addBook(@Body() input: BookInput, @CurrentUser() currentUser: User) {
