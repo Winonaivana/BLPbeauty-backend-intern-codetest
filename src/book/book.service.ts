@@ -8,8 +8,6 @@ import { Book } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BookInput, PatchBookInput } from './dto/book.dto';
 
-import { error } from 'console';
-
 @Injectable()
 export class BookService {
   constructor(private prisma: PrismaService) {}
@@ -30,13 +28,35 @@ export class BookService {
   }
 
   async addBook(input: BookInput, userId: number) {
-    return this.prisma.book.create({
-      data: {
-        ...input,
-        userId,
-        categoryId: input.categoryId ? input.categoryId : undefined,
-      },
-    });
+    try {
+      if (input.categoryId) {
+        const category = await this.prisma.category.findFirst({
+          where: {
+            id: input.categoryId,
+          },
+        });
+        if (!category) {
+          throw new NotFoundException('Couldnt find category with that id');
+        }
+        if (category.userId !== userId) {
+          throw new UnauthorizedException(`You're not the owner of the folder`);
+        }
+      }
+      return this.prisma.book.create({
+        data: {
+          ...input,
+          userId,
+          categoryId: input.categoryId ? input.categoryId : undefined,
+        },
+      });
+    } catch (error) {
+      if (error.code === 'P2003') {
+        throw new NotFoundException(
+          `userId or categoryId is not valid. Try again.`,
+        );
+      }
+      throw error;
+    }
   }
 
   async deleteBook(id: number, userId: number) {
@@ -93,5 +113,10 @@ export class BookService {
     }
   }
 
-  async updateBook(input: PatchBookInput) {}
+  async updateBook(id: number, input: PatchBookInput) {
+    return await this.prisma.book.update({
+      where: { id: id },
+      data: { ...input },
+    });
+  }
 }
