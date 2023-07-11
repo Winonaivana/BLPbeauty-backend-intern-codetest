@@ -7,7 +7,7 @@ import {
 import { Book } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BookInput, PatchBookInput } from './dto/book.dto';
-import { AuthDto } from 'src/auth/dto/auth.dto';
+
 import { error } from 'console';
 
 @Injectable()
@@ -30,34 +30,13 @@ export class BookService {
   }
 
   async addBook(input: BookInput, userId: number) {
-    try {
-      if (input.categoryId) {
-        const category = await this.prisma.category.findFirst({
-          where: {
-            id: input.categoryId,
-          },
-        });
-        if (!category) {
-          throw new NotFoundException('no category with that id');
-        }
-        if (category.userId !== userId) {
-          throw new UnauthorizedException('you did not make that folder yet');
-        }
-
-        return await this.prisma.book.create({
-          data: {
-            ...input,
-            userId,
-            categoryId: input.categoryId ? input.categoryId : undefined,
-          },
-        });
-      }
-    } catch (error) {
-      if (error.code === 'P2003') {
-        throw new NotFoundException('not available');
-      }
-      throw error;
-    }
+    return this.prisma.book.create({
+      data: {
+        ...input,
+        userId,
+        categoryId: input.categoryId ? input.categoryId : undefined,
+      },
+    });
   }
 
   async deleteBook(id: number, userId: number) {
@@ -89,7 +68,7 @@ export class BookService {
 
       const currentDate = new Date();
       if ((await book).finishDate !== null) {
-        throw new BadRequestException('You have finished writing the book');
+        throw new BadRequestException('You have finished reading the book');
       }
 
       const startDate = (await book).startDate;
@@ -97,11 +76,15 @@ export class BookService {
       const totalDate = currentDate.getDate() - startDate.getDate();
 
       await this.prisma.book.update({
-        data: { startDate: currentDate },
+        data: { finishDate: currentDate },
         where: { id: id },
       });
-
-      return `You finished your book at ${totalDate} `;
+      if (totalDate > 1) {
+        return `You finished your book in ${totalDate} days`;
+      }
+      {
+        return `You finished your book in ${totalDate} day`;
+      }
     } catch (error) {
       if (error.code === 'P2003') {
         throw new NotFoundException('not available');
@@ -109,4 +92,6 @@ export class BookService {
       throw error;
     }
   }
+
+  async updateBook(input: PatchBookInput) {}
 }

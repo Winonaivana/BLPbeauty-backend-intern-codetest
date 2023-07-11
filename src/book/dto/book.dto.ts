@@ -22,6 +22,7 @@ export class BookInput {
 }
 
 export class PatchBookInput {
+  @IsOptional()
   @IsString()
   title: string;
 

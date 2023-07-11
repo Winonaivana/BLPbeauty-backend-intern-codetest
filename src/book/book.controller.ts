@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { BookService } from './book.service';
@@ -43,6 +44,7 @@ export class BookController {
   async finishBook(
     @Param('id', ParseIntPipe) id,
     @CurrentUser() currentUser: User,
+    @Request() req,
   ) {
     return await this.bookService.finishBook(id, currentUser.id);
   }
