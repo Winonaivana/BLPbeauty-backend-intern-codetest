@@ -7,20 +7,22 @@ import {
   IsOptional,
 } from 'class-validator';
 
-export class CategoryInput {
+export class InputCategory {
   @IsString()
-  @MinLength(1)
-  @MaxLength(40)
+  @MinLength(5)
+  @MaxLength(65)
   @IsNotEmpty()
   @ApiProperty()
-  title: string;
+  name: string;
+
+  // @IsNotEmpty()
+  // @ApiProperty()
+  // userEmail: string;
 }
 
-export class UpdateCategory {
-  @IsString()
-  @MinLength(1)
-  @MaxLength(40)
+export class UpdateFolder {
   @IsOptional()
+  @IsString()
   @ApiProperty()
   title: string;
 }

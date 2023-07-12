@@ -6,6 +6,7 @@ import {
 import { Category } from '@prisma/client';
 import { error } from 'console';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { InputCategory } from './dto/category.dto';
 
 @Injectable()
 export class CategoryService {
@@ -27,16 +28,31 @@ export class CategoryService {
         where: { id: id },
       });
 
-      if (category.userId !== userId) {
-        throw new UnauthorizedException('You do not own this category');
-      }
       if (!category) {
         throw new NotFoundException('Category not found');
+      }
+      if (category.id !== userId) {
+        throw new UnauthorizedException('You do not own this category');
       }
 
       return category;
     } catch (error) {
       throw error;
     }
+  }
+
+  async addFolders(input: InputCategory, userId: number): Promise<Category> {
+    const { name } = input;
+
+    const category = await this.prisma.category.create({
+      data: {
+        name,
+        userId,
+      },
+    });
+    if (category.userId !== userId) {
+      throw new UnauthorizedException('You are not authorized');
+    }
+    return category;
   }
 }
