@@ -1,7 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AuthDto } from './dto/auth.dto';
+import { AuthDto, AuthLoginDto } from './dto/auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -17,7 +17,7 @@ export class AuthController {
   }
 
   @Post('/signin')
-  async login(@Body() input: AuthDto) {
+  async login(@Body() input: AuthLoginDto) {
     return await this.authService.loginUser(input);
   }
 }

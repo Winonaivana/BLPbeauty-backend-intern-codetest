@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AuthDto } from './dto/auth.dto';
+import { AuthDto, AuthLoginDto } from './dto/auth.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -30,10 +30,12 @@ export class AuthService {
         data: {
           email: input.email,
           hashPassword: hashPassword,
+          role: input.role,
         },
         select: {
           id: true,
           email: true,
+          role: true,
         },
       });
     } catch (err) {
@@ -44,7 +46,7 @@ export class AuthService {
     }
   }
 
-  async loginUser(input: AuthDto) {
+  async loginUser(input: AuthLoginDto) {
     const user = await this.prisma.user.findFirst({
       where: {
         email: input.email,
@@ -62,8 +64,9 @@ export class AuthService {
     if (!isPasswordMatch) {
       throw new UnauthorizedException('Incorrect credentials');
     }
+
     return {
-      accessToken: this.jwtService.sign({ sub: user.id }),
+      accessToken: this.jwtService.sign({ sub: user }),
     };
   }
 }
