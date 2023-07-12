@@ -6,7 +6,7 @@ import {
 import { Category } from '@prisma/client';
 import { error } from 'console';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { InputCategory } from './dto/category.dto';
+import { InputCategory, UpdateCategory } from './dto/category.dto';
 
 @Injectable()
 export class CategoryService {
@@ -56,7 +56,7 @@ export class CategoryService {
     return category;
   }
 
-  async deleteFolder(id: number, userId: number) {
+  async deleteCategory(id: number, userId: number) {
     const category = await this.prisma.category.delete({ where: { id: id } });
     if (!category) {
       throw new NotFoundException('Category not found');
@@ -64,6 +64,24 @@ export class CategoryService {
     if (category.userId !== userId) {
       throw new UnauthorizedException('You do not own this category');
     }
+    return category;
+  }
+
+  async updateCategory(id: number, userId: number, input: UpdateCategory) {
+    const { name } = input;
+    const category = await this.prisma.category.update({
+      where: { id: id },
+      data: { name },
+    });
+
+    if (!category) {
+      throw new NotFoundException('Category not found');
+    }
+
+    if (category.userId !== userId) {
+      throw new UnauthorizedException('You do not own this category');
+    }
+
     return category;
   }
 }

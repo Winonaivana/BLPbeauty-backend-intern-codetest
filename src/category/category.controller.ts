@@ -5,14 +5,16 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CurrentUser } from 'src/decorators/user.decorator';
 import { User } from '@prisma/client';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
-import { InputCategory } from './dto/category.dto';
+import { InputCategory, UpdateCategory } from './dto/category.dto';
 
 @UseGuards(JwtAuthGuard)
 @Controller('category')
@@ -43,6 +45,15 @@ export class CategoryController {
     @Param('id', ParseIntPipe) id: number,
     @CurrentUser() currentUser: User,
   ) {
-    return await this.categoryService.deleteFolder(id, currentUser.id);
+    return await this.categoryService.deleteCategory(id, currentUser.id);
+  }
+
+  @Patch(':id')
+  async updateCategory(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() currentUser: User,
+    @Body() input: UpdateCategory,
+  ) {
+    return await this.categoryService.updateCategory(id, currentUser.id, input);
   }
 }

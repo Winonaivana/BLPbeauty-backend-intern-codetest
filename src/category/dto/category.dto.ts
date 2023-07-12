@@ -9,20 +9,14 @@ import {
 
 export class InputCategory {
   @IsString()
-  @MinLength(5)
-  @MaxLength(65)
   @IsNotEmpty()
   @ApiProperty()
   name: string;
-
-  // @IsNotEmpty()
-  // @ApiProperty()
-  // userEmail: string;
 }
 
-export class UpdateFolder {
+export class UpdateCategory {
   @IsOptional()
   @IsString()
   @ApiProperty()
-  title: string;
+  name: string;
 }
