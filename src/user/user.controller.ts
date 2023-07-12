@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { CurrentUser } from 'src/decorators/user.decorator';
@@ -12,5 +12,10 @@ export class UserController {
   @Get()
   async findAllUser(@CurrentUser() currentUser: User) {
     return await this.userService.findUser(currentUser.id);
+  }
+
+  @Delete()
+  async deleteUser(@CurrentUser() currentUser: User) {
+    return await this.userService.deleteUser(currentUser.id);
   }
 }

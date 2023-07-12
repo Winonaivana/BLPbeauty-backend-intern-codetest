@@ -19,4 +19,15 @@ export class UserService {
     }
     return user.email;
   }
+
+  async deleteUser(userId: number) {
+    const user = await this.prisma.user.delete({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    if (user.id !== userId) {
+      throw new UnauthorizedException('Not your account');
+    }
+    return `${user.email} have been deleted`;
+  }
 }
