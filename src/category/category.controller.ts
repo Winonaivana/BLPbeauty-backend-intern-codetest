@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -35,5 +36,13 @@ export class CategoryController {
     @CurrentUser() currentUser: User,
   ) {
     return await this.categoryService.addFolders(input, currentUser.id);
+  }
+
+  @Delete(':id')
+  async deleteCategory(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() currentUser: User,
+  ) {
+    return await this.categoryService.deleteFolder(id, currentUser.id);
   }
 }

@@ -55,4 +55,15 @@ export class CategoryService {
     }
     return category;
   }
+
+  async deleteFolder(id: number, userId: number) {
+    const category = await this.prisma.category.delete({ where: { id: id } });
+    if (!category) {
+      throw new NotFoundException('Category not found');
+    }
+    if (category.userId !== userId) {
+      throw new UnauthorizedException('You do not own this category');
+    }
+    return category;
+  }
 }
