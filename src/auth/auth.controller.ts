@@ -2,8 +2,11 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthDto, AuthLoginDto } from './dto/auth.dto';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { AuthEntity } from './entity/auth.entity';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
@@ -17,6 +20,7 @@ export class AuthController {
   }
 
   @Post('/signin')
+  @ApiOkResponse({ type: AuthEntity })
   async login(@Body() input: AuthLoginDto) {
     return await this.authService.loginUser(input);
   }

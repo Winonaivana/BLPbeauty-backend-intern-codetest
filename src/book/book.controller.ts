@@ -12,21 +12,41 @@ import {
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CurrentUser } from '../decorators/user.decorator';
-import { ApiQuery } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiParam,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { BookInput, PatchBookInput } from './dto/book.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
+import { type } from 'os';
+import { BookEntity } from './entity/book.entity';
 
 @UseGuards(JwtAuthGuard)
+@ApiTags('book')
+@ApiBearerAuth()
 @Controller('book')
 export class BookController {
   constructor(private bookService: BookService) {}
 
   @Get()
-  async findAll(@CurrentUser() currentUser: User, @Query('q') query?: string) {
+  @ApiOkResponse({ type: BookEntity, isArray: true })
+  @ApiQuery({
+    name: 'query',
+    required: false,
+    type: String,
+  })
+  async findAll(
+    @CurrentUser() currentUser: User,
+    @Query('query') query?: string,
+  ) {
     return await this.bookService.findAll(query, currentUser.id);
   }
   @Get(':id')
+  @ApiOkResponse({ type: BookEntity })
   async findById(
     @Param('id', ParseIntPipe) id: number,
     @CurrentUser() currentUser: User,
@@ -49,14 +69,16 @@ export class BookController {
   }
 
   @Post('finish/:id')
+  @ApiOkResponse({ type: BookEntity })
   async finishBook(
-    @Param('id', ParseIntPipe) id,
+    @Param('id', ParseIntPipe) id: number,
     @CurrentUser() currentUser: User,
   ) {
     return await this.bookService.finishBook(id, currentUser.id);
   }
 
   @Patch('update/:id')
+  @ApiOkResponse({ type: BookEntity })
   async updateBook(
     @Param('id', ParseIntPipe) id,
     @CurrentUser() currentUser: User,

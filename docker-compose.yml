@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  database:
+    image: postgres:alpine
+    container_name: bookie-app-postgres
+    hostname: database
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    restart: always
+
+  app:
+    image: winona/bookie-backend-project
+    container_name: bookie-backend-project
+    build: .
+    ports:
+      - 80:3333
+      - 443:3333
+      - 3333:3333
+    env_file:
+      - .env
+    depends_on:
+      - database
+    restart: always
+
+volumes:
+  postgres:

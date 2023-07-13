@@ -16,14 +16,8 @@ model User {
   updatedAt    DateTime   @updatedAt
   email        String     @unique
   hashPassword String
-  role         UserRole
   books        Book[]
   categories   Category[]
-}
-
-enum UserRole {
-  ADMIN
-  USER
 }
 
 model Book {

@@ -15,8 +15,11 @@ import { CurrentUser } from 'src/decorators/user.decorator';
 import { User } from '@prisma/client';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { InputCategory, UpdateCategory } from './dto/category.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)
+@ApiTags('category')
+@ApiBearerAuth()
 @Controller('category')
 export class CategoryController {
   constructor(private categoryService: CategoryService) {}

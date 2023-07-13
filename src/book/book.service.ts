@@ -69,11 +69,6 @@ export class BookService {
         },
       });
     } catch (error) {
-      if (error.code === 'P2003') {
-        throw new NotFoundException(
-          `userId or categoryId is not valid. Try again.`,
-        );
-      }
       throw error;
     }
   }
@@ -92,9 +87,6 @@ export class BookService {
         where: { id: id },
       });
     } catch (error) {
-      if (error.code === 'P2025') {
-        throw new NotFoundException(error.meta.cause);
-      }
       throw error;
     }
   }
@@ -125,9 +117,6 @@ export class BookService {
         return `You finished your book in ${totalDate} day`;
       }
     } catch (error) {
-      if (error.code === 'P2003') {
-        throw new NotFoundException('not available');
-      }
       throw error;
     }
   }
@@ -152,9 +141,6 @@ export class BookService {
         data: { ...input },
       });
     } catch (error) {
-      if (error.code === 'P2003') {
-        throw new NotFoundException('not available');
-      }
       throw error;
     }
   }

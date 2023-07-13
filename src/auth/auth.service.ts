@@ -30,12 +30,10 @@ export class AuthService {
         data: {
           email: input.email,
           hashPassword: hashPassword,
-          role: input.role,
         },
         select: {
           id: true,
           email: true,
-          role: true,
         },
       });
     } catch (err) {

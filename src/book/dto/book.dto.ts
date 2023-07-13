@@ -18,15 +18,18 @@ export class BookInput {
 
   @IsOptional()
   @IsNumber()
+  @ApiProperty()
   categoryId: number;
 }
 
 export class PatchBookInput {
   @IsOptional()
   @IsString()
+  @ApiProperty()
   title: string;
 
   @IsOptional()
   @IsNumber()
+  @ApiProperty()
   categoryId: number;
 }
