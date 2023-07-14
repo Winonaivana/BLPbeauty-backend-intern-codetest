@@ -8,13 +8,9 @@ REST API for Bookie is built with [Nest](https://github.com/nestjs/nest).
 
 - Docker Hub: [Repository Link](https://hub.docker.com/repository/docker/winonaivana/bookie-backend/general)
 
-## System Design Diagram
-
-![system-design-diagram](/Assets/DB.png)
-
 ## Entity Relationship Diagram
 
-![entity-relationship-diagram](/public/assets/erd.png)
+![system-design-diagram](/Assets/DB.png)
 
 ## API Endpoints
 
