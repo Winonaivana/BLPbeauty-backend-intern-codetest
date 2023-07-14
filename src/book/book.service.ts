@@ -65,6 +65,7 @@ export class BookService {
         data: {
           ...input,
           userId,
+          image: input.image ? input.image : undefined,
           categoryId: input.categoryId ? input.categoryId : undefined,
           rating: input.rating ? input.rating : undefined,
           description: input.description ? input.description : undefined,

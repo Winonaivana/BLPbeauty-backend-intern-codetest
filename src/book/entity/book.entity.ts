@@ -8,6 +8,9 @@ export class BookEntity {
   title: string;
 
   @ApiProperty()
+  image: string;
+
+  @ApiProperty()
   description: string;
 
   @ApiProperty()

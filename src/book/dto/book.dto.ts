@@ -16,6 +16,11 @@ export class BookInput {
   @ApiProperty()
   title: string;
 
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  image: string;
+
   @IsOptional()
   @IsNumber()
   @ApiProperty()
@@ -38,6 +43,11 @@ export class PatchBookInput {
   @IsString()
   @ApiProperty()
   title: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  image: string;
 
   @IsOptional()
   @IsNumber()
