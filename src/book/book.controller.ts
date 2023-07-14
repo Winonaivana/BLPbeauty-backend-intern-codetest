@@ -80,7 +80,7 @@ export class BookController {
   @Patch('update/:id')
   @ApiOkResponse({ type: BookEntity })
   async updateBook(
-    @Param('id', ParseIntPipe) id,
+    @Param('id', ParseIntPipe) id: number,
     @CurrentUser() currentUser: User,
     @Body() input: PatchBookInput,
   ) {

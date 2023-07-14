@@ -4,7 +4,7 @@ services:
   database:
     image: postgres:alpine
     hostname: localhost
-    container_name: bookie-app-postgres
+    container_name: bookie-main-postgres
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:

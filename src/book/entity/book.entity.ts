@@ -8,6 +8,12 @@ export class BookEntity {
   title: string;
 
   @ApiProperty()
+  description: string;
+
+  @ApiProperty()
+  rating: number;
+
+  @ApiProperty()
   startDate: Date;
 
   @ApiProperty()

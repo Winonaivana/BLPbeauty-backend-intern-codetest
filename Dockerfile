@@ -7,10 +7,10 @@ COPY pnpm-lock.yaml ./
 
 RUN npm i -g pnpm
 RUN pnpm fetch --prod
-RUN pnpm install -r --offline --prod
+RUN pnpm install -r --prod
 
 COPY . ./
 RUN pnpm build
 
-EXPOSE 7777
+EXPOSE 4000
 CMD ["pnpm", "start:prod"]

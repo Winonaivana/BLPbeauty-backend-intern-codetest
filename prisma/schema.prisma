@@ -21,14 +21,16 @@ model User {
 }
 
 model Book {
-  id         Int       @id @default(autoincrement())
-  title      String
-  startDate  DateTime  @default(now())
-  finishDate DateTime?
-  userId     Int
-  User       User      @relation(fields: [userId], references: [id])
-  categoryId Int?
-  Category   Category? @relation(fields: [categoryId], references: [id])
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  rating      Int?
+  startDate   DateTime  @default(now())
+  finishDate  DateTime?
+  userId      Int
+  User        User      @relation(fields: [userId], references: [id])
+  categoryId  Int?
+  Category    Category? @relation(fields: [categoryId], references: [id])
 }
 
 model Category {

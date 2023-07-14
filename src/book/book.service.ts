@@ -66,6 +66,8 @@ export class BookService {
           ...input,
           userId,
           categoryId: input.categoryId ? input.categoryId : undefined,
+          rating: input.rating ? input.rating : undefined,
+          description: input.description ? input.description : undefined,
         },
       });
     } catch (error) {

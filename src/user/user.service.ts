@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -17,17 +18,19 @@ export class UserService {
     if (user.id !== userId) {
       throw new UnauthorizedException('Not your account');
     }
-    return user.email;
+    return user;
   }
 
-  async deleteUser(userId: number) {
-    const user = await this.prisma.user.delete({ where: { id: userId } });
+  async deleteUser(id: number, userId: number) {
+    const user = await this.prisma.user.delete({ where: { id: id } });
+
     if (!user) {
       throw new NotFoundException('User not found');
     }
     if (user.id !== userId) {
       throw new UnauthorizedException('Not your account');
     }
+
     return `${user.email} have been deleted`;
   }
 }

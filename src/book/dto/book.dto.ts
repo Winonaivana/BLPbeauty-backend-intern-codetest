@@ -20,6 +20,17 @@ export class BookInput {
   @IsNumber()
   @ApiProperty()
   categoryId: number;
+
+  @IsString()
+  @MinLength(3)
+  @IsOptional()
+  @ApiProperty()
+  description: string;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiProperty()
+  rating: number;
 }
 
 export class PatchBookInput {
@@ -32,4 +43,15 @@ export class PatchBookInput {
   @IsNumber()
   @ApiProperty()
   categoryId: number;
+
+  @IsString()
+  @MinLength(3)
+  @IsOptional()
+  @ApiProperty()
+  description: string;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiProperty()
+  rating: number;
 }
