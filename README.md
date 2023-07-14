@@ -8,13 +8,15 @@ REST API for Bookie is built with [Nest](https://github.com/nestjs/nest).
 
 - Docker Hub: [Repository Link](https://hub.docker.com/repository/docker/winonaivana/bookie-backend/general)
 
+- Link to API: (https://bookie-api.winonaivana.com/) deployed through Google Cloud Platform
+
 ## Entity Relationship Diagram
 
 ![system-design-diagram](/Assets/DB.png)
 
 ## API Endpoints
 
-Full documentation is available through Swagger
+Full documentation: (https://bookie-api.winonaivana.com/docs)
 
 This project exposes the following endpoints:
 
