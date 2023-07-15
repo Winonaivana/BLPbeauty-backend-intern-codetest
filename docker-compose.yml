@@ -8,7 +8,7 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 2000:2000
     env_file:
       - .env
     restart: always

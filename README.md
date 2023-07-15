@@ -17,7 +17,7 @@ REST API for Bookie is built with [Nest](https://github.com/nestjs/nest).
 
 ## API Endpoints
 
-Full documentation: (https://bookie-api.onrender.com/docs)
+Full documentation: (https://bookie-api.onrender.com/docs) _please note that in swagger the categoryId in the @body will be initialized at 0, hence when updating please remove categoryId if you do not intend to add categoryId_
 
 This project exposes the following endpoints:
 

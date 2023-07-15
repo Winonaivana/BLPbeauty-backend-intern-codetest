@@ -55,7 +55,6 @@ export class PatchBookInput {
   categoryId: number;
 
   @IsString()
-  @MinLength(3)
   @IsOptional()
   @ApiProperty()
   description: string;

@@ -51,7 +51,7 @@ export class CategoryController {
     return await this.categoryService.deleteCategory(id, currentUser.id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   async updateCategory(
     @Param('id', ParseIntPipe) id: number,
     @CurrentUser() currentUser: User,
