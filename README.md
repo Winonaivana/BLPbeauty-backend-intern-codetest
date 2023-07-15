@@ -17,7 +17,7 @@ REST API for Bookie is built with [Nest](https://github.com/nestjs/nest).
 
 ## API Endpoints
 
-Full documentation: (https://bookie-api.winonaivana.com/docs)
+Full documentation: (https://bookie-api.onrender.com/docs)
 
 This project exposes the following endpoints:
 
