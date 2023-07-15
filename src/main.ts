@@ -19,7 +19,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  app.enableCors();
+  app.enableCors({ methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS' });
   await app.listen(process.env.PORT || 4000);
 }
 bootstrap();

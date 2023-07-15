@@ -8,7 +8,7 @@ import {
   Post,
   Query,
   UseGuards,
-  Put,
+  Patch,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CurrentUser } from '../decorators/user.decorator';
@@ -77,7 +77,7 @@ export class BookController {
     return await this.bookService.finishBook(id, currentUser.id);
   }
 
-  @Put('update/:id')
+  @Patch('update/:id')
   @ApiOkResponse({ type: BookEntity })
   async updateBook(
     @Param('id', ParseIntPipe) id: number,
